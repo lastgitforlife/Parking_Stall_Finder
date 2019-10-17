@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.parkingstallfinder.Util.UtilJson;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -14,7 +13,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -48,14 +46,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng van = new LatLng(49.2488125, -122.9805344);
         mMap.addMarker(new MarkerOptions().position(van).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(van));
-        try{
-            UtilJson uJ = new UtilJson(this);
-            String input = uJ.readJSONFromAsset("parking_meters_van.json");
-            JSONArray jsArray = new JSONArray(input);
-            Log.e("JSON", jsArray.toString());
-        }catch(Exception e){
-            Log.e("Error", e.getLocalizedMessage());
-        }
 
     }
 }
