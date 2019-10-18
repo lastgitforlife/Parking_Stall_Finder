@@ -6,7 +6,7 @@ public class Meter {
 
     private LatLng location;
     private String description;
-    private String[] times = new String[7];
+    private String[][] times = new String[7][];
     private String price;
 
     /**
@@ -26,21 +26,17 @@ public class Meter {
     }
 
     /**
-     * Returns the open times of the meter.
-     * @return String[] of size 7 that hold the times open on the days.
-     */
-    public String[] getTime(){
-        return times;
-    }
-
-    /**
      * Returns the open time for the meter on the day indicated.
      * Index 0 = Sunday, Index 1 = Monday , Index 2 = Tuesday ... Index 6 = Saturday.
      * @param day int representation of the weekdays.
      * @return String that is a readable version of that days open times. Ex: Sunday 6am - 1pm
      */
     public String getTime(int day){
-        return times[day];
+        String output = "";
+        for(int i = 0; i < times[day].length; i++){
+            output += times[day][i];
+        }
+        return output;
     }
 
     /**
@@ -57,5 +53,17 @@ public class Meter {
      */
     public LatLng getLocation(){
         return location;
+    }
+
+    public void setTime(int day, String[] times){
+        this.times[day] = times;
+    }
+
+    public void setDescription(String desc){
+        description = desc;
+    }
+
+    public void setPrice(String price){
+        this.price = price;
     }
 }
