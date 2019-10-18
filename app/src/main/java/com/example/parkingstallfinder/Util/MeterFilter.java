@@ -11,13 +11,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Class used to get and filter meter data.
  */
-public class MeterFilter extends Observable {
+public class MeterFilter{
 
     private LatLng[] searchArea = new LatLng[2]; // [0] = TopLeft, [1] = BtmRight.
     private ArrayList<Meter> currentScope; // Meters currently in search area.
