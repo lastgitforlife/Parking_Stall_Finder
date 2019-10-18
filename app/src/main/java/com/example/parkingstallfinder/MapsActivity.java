@@ -46,7 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
+        // Add a marker in Vancouver and move the camera
         LatLng van = new LatLng(49.3, -123.9805344);
         LatLng van2 = new LatLng(49.0504, -122.3905344);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(van));
@@ -57,7 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             i--;
         }
         ArrayList<Meter> mL = mf.getMeterList();
-        for(int i = 0; i < mL.size()/4; i++){
+        for(int i = 0; i < mL.size()/50; i++){
             addMarker(mL.get(i));
         }
     }
