@@ -34,12 +34,12 @@ public class MeterFilter{
 
     /**
      * Changes the current search area for meters.
-     * @param topLeft LatLng Coordinate object.
-     * @param btmRight LatLng Coordinate object.
+     * @param tL LatLng Coordinate object.
+     * @param bR LatLng Coordinate object.
      */
-    public void search(LatLng topLeft, LatLng btmRight){
-        searchArea[0] = topLeft;
-        searchArea[1] = btmRight;
+    public void search(LatLng tL, LatLng bR){
+        searchArea[0] = tL;
+        searchArea[1] = bR;
         if(!currentScope.isEmpty())
             currentScope.clear();
         //TODO: FIX THIS
@@ -96,9 +96,14 @@ public class MeterFilter{
 
             // Making a request ot url and getting response
             jsonStr = sh.makeServiceCall("https://opendata.vancouver.ca/api/records/1.0/search/?dataset=parking-meters&rows=9999&facet=r_mf_9a_6p&facet=r_mf_6p_10&facet=r_sa_9a_6p&facet=r_sa_6p_10&facet=r_su_9a_6p&facet=r_su_6p_10&facet=timeineffe&facet=t_mf_9a_6p&facet=t_mf_6p_10&facet=t_sa_9a_6p&facet=t_sa_6p_10&facet=t_su_9a_6p&facet=t_su_6p_10&facet=creditcard&facet=geo_local_area");
-
             Log.e("JSON:" , jsonStr);
+            vanData(jsonStr); //Gets vancouver json data.
+            //newWestData(); // Gets New Westminster json data.
 
+            return null;
+        }
+
+        private void vanData(String jsonStr){
             if(jsonStr != null){
                 try{
                     JSONObject jsonObj = new JSONObject(jsonStr);
@@ -127,10 +132,37 @@ public class MeterFilter{
                     Log.e("JSON", e.getLocalizedMessage());
                 }
             }
-            //for(int i = 0; i < 100; i++){
-                //Log.e("JSON Success", "" + allMeters.get(i).getLocation());
-            //}
-            return null;
+        }
+
+        private void newWestData(String jsonStr){
+            if(jsonStr != null){
+                try{
+                    JSONObject jsonObj = new JSONObject(jsonStr);
+                    JSONArray jsArray = jsonObj.getJSONArray("records");
+                    for(int i = 0; i < jsArray.length(); i++){
+                        jsonObj = jsArray.getJSONObject(i);
+                        JSONObject data = jsonObj.getJSONObject("fields");
+                        JSONObject dataGeom = data.getJSONObject("geom");
+                        JSONArray coordinates = dataGeom.getJSONArray("coordinates");
+                        LatLng latlng = new LatLng(coordinates.getDouble(1), coordinates.getDouble(0));
+                        Meter meterData = new Meter(latlng);
+                        try{
+                            meterData.setDescription(data.getString("timeineffe"));
+                        } catch (Exception e){
+                            meterData.setDescription("Not Known");
+                        }
+                        try{
+                            meterData.setPrice(data.getString("r_mf_9a_6p"));
+                        }catch (Exception e){
+                            meterData.setPrice("Not known");
+                        }
+
+                        allMeters.add(meterData);
+                    }
+                }catch(Exception e){
+                    Log.e("JSON", e.getLocalizedMessage());
+                }
+            }
         }
     }
 }

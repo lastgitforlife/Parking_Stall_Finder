@@ -55,15 +55,15 @@ public class Meter {
         return location;
     }
 
-    public void setTime(int day, String[] times){
+    void setTime(int day, String[] times){
         this.times[day] = times;
     }
 
-    public void setDescription(String desc){
+    void setDescription(String desc){
         description = desc;
     }
 
-    public void setPrice(String price){
+    void setPrice(String price){
         this.price = price;
     }
 }

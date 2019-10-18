@@ -47,28 +47,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng van = new LatLng(49.2488125, -122.9805344);
-        LatLng van2 = new LatLng(49.5488125, -122.9905344);
+        LatLng van = new LatLng(49.3, -123.9805344);
+        LatLng van2 = new LatLng(49.0504, -122.3905344);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(van));
         MeterFilter mf = new MeterFilter();
         mf.search(van, van2);
         for(int i = 0; mf.gettingData();){
             i++;
-            i = 0;
+            i--;
         }
         ArrayList<Meter> mL = mf.getMeterList();
-        for(int i = 0; i < 1000; i++){
-            addMarker(mL.get(i).getLocation());
+        for(int i = 0; i < mL.size()/4; i++){
+            addMarker(mL.get(i));
         }
     }
 
+    /**
+     * Easy add marker.
+     * @param location LatLng of location you want a marker at.
+     */
     private void addMarker(LatLng location){
-        String msg = String.format(Locale.CANADA, "Meter: %4.3f Lat %4.3f Long.",
+        String msg = String.format(Locale.CANADA, "Location: Lat: %4.3f  Lon: %4.3f",
                 location.latitude, location.longitude);
 
         mMap.addMarker(new MarkerOptions().position(location).title(msg));
 
-        float zoomLevel = 6.0f;
+        float zoomLevel = 13.0f;
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
+    }
+
+    /**
+     * Easy add marker for Meter data.
+     * @param meter Meter object.
+     */
+    private void addMarker(Meter meter){
+        LatLng location = meter.getLocation();
+        String msg = String.format(Locale.CANADA, "Meter: Lat: %4.3f  Lon: %4.3f Price: %s ",
+                location.latitude, location.longitude, meter.getPrice());
+
+        mMap.addMarker(new MarkerOptions().position(location).title(msg));
+
+        float zoomLevel = 13.0f;
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
     }
 }
