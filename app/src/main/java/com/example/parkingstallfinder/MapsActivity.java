@@ -2,8 +2,11 @@ package com.example.parkingstallfinder;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.example.parkingstallfinder.Util.Meter;
 import com.example.parkingstallfinder.Util.MeterFilter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -11,6 +14,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -43,9 +49,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
         LatLng van = new LatLng(49.2488125, -122.9805344);
         LatLng van2 = new LatLng(49.5488125, -122.9905344);
-        mMap.addMarker(new MarkerOptions().position(van).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(van));
         MeterFilter mf = new MeterFilter();
         mf.search(van, van2);
+        for(int i = 0; mf.gettingData();){
+            i++;
+            i = 0;
+        }
+        ArrayList<Meter> mL = mf.getMeterList();
+        for(int i = 0; i < 1000; i++){
+            addMarker(mL.get(i).getLocation());
+        }
+    }
+
+    private void addMarker(LatLng location){
+        String msg = String.format(Locale.CANADA, "Meter: %4.3f Lat %4.3f Long.",
+                location.latitude, location.longitude);
+
+        mMap.addMarker(new MarkerOptions().position(location).title(msg));
+
+        float zoomLevel = 6.0f;
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
     }
 }

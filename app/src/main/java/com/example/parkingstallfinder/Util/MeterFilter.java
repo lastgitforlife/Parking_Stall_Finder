@@ -21,14 +21,17 @@ public class MeterFilter extends Observable {
 
     private LatLng[] searchArea = new LatLng[2]; // [0] = TopLeft, [1] = BtmRight.
     private ArrayList<Meter> currentScope; // Meters currently in search area.
-    private Observer[] observers; // Observers that update the meter list.
+    //TEMP TILL SEARCH IS FIXED
+    private ArrayList<Meter> allMeters = new ArrayList<>(); // ALL METERS.
 
     /**
      * Constructor for Meter Filter.
      */
     public MeterFilter(){
         currentScope = new ArrayList<>();
-
+        //TODO: FIX THIS
+        GetInformation getInfo = new GetInformation();
+        getInfo.execute();
     }
 
     /**
@@ -41,8 +44,8 @@ public class MeterFilter extends Observable {
         searchArea[1] = btmRight;
         if(!currentScope.isEmpty())
             currentScope.clear();
-        GetInformation getInfo = new GetInformation();
-        getInfo.execute();
+        //TODO: FIX THIS
+        currentScope = allMeters;
     }
 
     /**
@@ -76,6 +79,13 @@ public class MeterFilter extends Observable {
         return currentScope;
     }
 
+    public boolean gettingData(){
+        if(allMeters.size() < 100){
+            return true;
+        }
+        return false;
+    }
+
     // PRIVATE HELPER METHODS
 
     //Gets JSON Info and passes it all into current scope.
@@ -100,7 +110,7 @@ public class MeterFilter extends Observable {
                         JSONObject data = jsonObj.getJSONObject("fields");
                         JSONObject dataGeom = data.getJSONObject("geom");
                         JSONArray coordinates = dataGeom.getJSONArray("coordinates");
-                        LatLng latlng = new LatLng(coordinates.getDouble(0), coordinates.getDouble((1)));
+                        LatLng latlng = new LatLng(coordinates.getDouble(1), coordinates.getDouble(0));
                         Meter meterData = new Meter(latlng);
                         try{
                             meterData.setDescription(data.getString("timeineffe"));
@@ -113,13 +123,15 @@ public class MeterFilter extends Observable {
                             meterData.setPrice("Not known");
                         }
 
-                        currentScope.add(meterData);
+                        allMeters.add(meterData);
                     }
                 }catch(Exception e){
                     Log.e("JSON", e.getLocalizedMessage());
                 }
             }
-            Log.e("JSON Success", "" + currentScope.get(0).getLocation());
+            //for(int i = 0; i < 100; i++){
+                //Log.e("JSON Success", "" + allMeters.get(i).getLocation());
+            //}
             return null;
         }
     }
