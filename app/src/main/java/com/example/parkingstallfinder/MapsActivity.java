@@ -30,7 +30,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
     }
 
 
@@ -57,8 +56,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             i--;
         }
         ArrayList<Meter> mL = mf.getMeterList();
-        for(int i = 0; i < mL.size()/50; i++){
-            addMarker(mL.get(i));
+       addMarker(mL.get(0).getLocation());
+        for(int i = 0; i < mL.size()/40; i++){
+            addMarker(mL.get(i), "time");
         }
     }
 
@@ -79,11 +79,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /**
      * Easy add marker for Meter data.
      * @param meter Meter object.
+     * @param filter String that is "price" or "time".
      */
-    private void addMarker(Meter meter){
+    private void addMarker(Meter meter, String filter){
         LatLng location = meter.getLocation();
-        String msg = String.format(Locale.CANADA, "Meter: Lat: %4.3f  Lon: %4.3f Price: %s ",
-                location.latitude, location.longitude, meter.getPrice("monday", 10));
+        String msg = String.format(Locale.CANADA, "Meter: Lat: %4.3f  Lon: %4.3f %s: %s ",
+                location.latitude, location.longitude, filter,  meter.getInfo(filter, "saturday", 19));
 
         mMap.addMarker(new MarkerOptions().position(location).title(msg));
 

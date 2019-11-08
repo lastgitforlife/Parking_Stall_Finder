@@ -1,5 +1,6 @@
 package com.example.parkingstallfinder.Util;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -42,10 +43,6 @@ public class MeterFilter{
         if(!currentScope.isEmpty())
             currentScope.clear();
         //TODO: FIX THIS
-        double ulLat = tL.latitude;
-        double ulLong = tL.longitude;
-        double lrLat = bR.latitude;
-        double lrLon = bR.longitude;
         currentScope = allMeters;
     }
 
@@ -81,7 +78,7 @@ public class MeterFilter{
     }
 
     public boolean gettingData(){
-        if(allMeters.size() < 100){
+        if(allMeters.size() < 1){
             return true;
         }
         return false;
@@ -124,17 +121,77 @@ public class MeterFilter{
                             meterData.setDescription("Not Known");
                         }
                         try{
-                            // r_mf_6p_10
-                            // r_sa_9a_6p
-                            // r_mf_9a_6p
-                            // r_su_8p_10
-                            // r_sa_6p_10
                             meterData.setPrice("monday", 9, data.getString("r_mf_9a_6p"));
                         }catch (Exception e){
-                            meterData.setPrice("monday", 0,  "Not known");
+                            meterData.setPrice("monday", 9,  "Not known");
                             Log.e("JSON", "Not known time.");
                         }
-
+                        try{
+                            meterData.setPrice("monday", 19, data.getString("r_mf_6p_10"));
+                        }catch (Exception e){
+                            meterData.setPrice("monday", 19,  "Not known");
+                            Log.e("JSON", "Not known time.");
+                        }
+                        try{
+                            meterData.setPrice("saturday", 9, data.getString("r_sa_9a_6p"));
+                        }catch (Exception e){
+                            meterData.setPrice("saturday", 9,  "Not known");
+                            Log.e("JSON", "Not known time.");
+                        }
+                        try{
+                            meterData.setPrice("saturday", 19, data.getString("r_sa_6p_10"));
+                        }catch (Exception e){
+                            meterData.setPrice("saturday", 19,  "Not known");
+                            Log.e("JSON", "Not known time.");
+                        }
+                        try{
+                            meterData.setPrice("sunday", 9, data.getString("r_su_9a_6p"));
+                        }catch (Exception e){
+                            meterData.setPrice("sunday", 9,  "Not known");
+                            Log.e("JSON", "Not known time.");
+                        }
+                        try{
+                            meterData.setPrice("sunday", 19, data.getString("r_su_6p_10"));
+                        }catch (Exception e){
+                            meterData.setPrice("sunday", 19,  "Not known");
+                            Log.e("JSON", "Not known time.");
+                        }
+                        try{
+                            meterData.setTime("monday", 9, data.getString("t_mf_9a_6p"));
+                        }catch (Exception e){
+                            meterData.setTime("monday", 9,  "Not known");
+                            Log.e("JSON", "Not known time.");
+                        }
+                        try{
+                            meterData.setTime("monday", 19, data.getString("t_mf_6p_10"));
+                        }catch (Exception e){
+                            meterData.setTime("monday", 19,  "Not known");
+                            Log.e("JSON", "Not known time.");
+                        }
+                        try{
+                            meterData.setTime("saturday", 9, data.getString("t_sa_9a_6p"));
+                        }catch (Exception e){
+                            meterData.setTime("saturday", 9,  "Not known");
+                            Log.e("JSON", "Not known time.");
+                        }
+                        try{
+                            meterData.setTime("saturday", 19, data.getString("t_sa_6p_10"));
+                        }catch (Exception e){
+                            meterData.setTime("saturday", 19,  "Not known");
+                            Log.e("JSON", "Not known time.");
+                        }
+                        try{
+                            meterData.setTime("sunday", 9, data.getString("t_su_9a_6p"));
+                        }catch (Exception e){
+                            meterData.setTime("sunday", 9,  "Not known");
+                            Log.e("JSON", "Not known time.");
+                        }
+                        try{
+                            meterData.setTime("sunday", 19, data.getString("t_su_6p_10"));
+                        }catch (Exception e){
+                            meterData.setTime("sunday", 19,  "Not known");
+                            Log.e("JSON", "Not known time.");
+                        }
                         allMeters.add(meterData);
                     }
                 }catch(Exception e){
@@ -173,5 +230,6 @@ public class MeterFilter{
                 }
             }
         }
+
     }
 }

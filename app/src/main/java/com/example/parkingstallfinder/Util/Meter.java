@@ -34,23 +34,13 @@ public class Meter {
     }
 
     /**
-     * Returns the open time for the meter on the day indicated.
-     * Index 0 = Sunday, Index 1 = Monday , Index 2 = Tuesday ... Index 6 = Saturday.
-     * @param day int representation of the weekdays.
-     * @return String that is a readable version of that days open times. Ex: Sunday 6am - 1pm
-     */
-    public String getTime(int day){
-        String output = "";
-
-        return output;
-    }
-
-    /**
      * Returns the price as a formatted string.
+     * @param type "price" or "type"
      * @return String formated with $ sign. Ex: $1.50
      */
-    public String getPrice(String day, float time){
-        return info.get(keyCode("price", day, time));
+    public String getInfo(String type, String day, float time){
+        String key = keyCode(type, day, time);
+        return info.get(key);
     }
 
     /**
@@ -60,7 +50,7 @@ public class Meter {
      * @param time float 24 hour clock.
      * @return String keycode needed to access a hashmap.
      */
-    private String keyCode(String type, String day, float time){
+    public static String keyCode(String type, String day, float time){
         String key;
         if(type.equals("price")){
             key = "r_";
@@ -72,7 +62,7 @@ public class Meter {
         return key + dayCode(day) + timeCode(time);
     }
 
-    private String dayCode(String day){
+    private static String dayCode(String day){
         switch (day){
             case "monday":
             case "tuesday":
@@ -88,14 +78,13 @@ public class Meter {
         throw new IllegalArgumentException("Invalid day");
     }
 
-    private String timeCode(float time){
-        String timeKey;
+    private static String timeCode(float time){
         if(time >= 9 && time <= 18){
             return "9a_6p";
         }else if(time >18 && time <= 22){
             return"6p_10";
         }
-        throw new IllegalArgumentException("Invalid time");
+        throw new IllegalArgumentException("Invalid time code");
     }
 
     /**
@@ -112,5 +101,9 @@ public class Meter {
 
     void setPrice(String day, float time, String price){
         info.put(keyCode("price", day, time), price);
+    }
+
+    void setTime(String day, float time, String price){
+        info.put(keyCode("time", day, time), price);
     }
 }
