@@ -46,7 +46,7 @@ public class MeterFilter{
         for(int i = 0; i < allMeters.size(); i++){
             Meter meter = allMeters.get(i);
             LatLng location = meter.getLocation();
-            if(location.longitude > tL.longitude && location.latitude < tL.latitude){
+            if(location.longitude > tL.longitude && location.latitude < tL.latitude){ // Breakpoint here to get it to work -\('_')/-
                 if(location.longitude < bR.longitude && location.latitude > bR.latitude){
                     currentScope.add(meter);
                 }
