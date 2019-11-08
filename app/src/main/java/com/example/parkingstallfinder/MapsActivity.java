@@ -50,15 +50,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng van2 = new LatLng(49.0504, -122.3905344);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(van));
         MeterFilter mf = new MeterFilter();
-        mf.search(van, van2);
         for(int i = 0; mf.gettingData();){
             i++;
             i--;
         }
+        mf.search(van, van2);
         ArrayList<Meter> mL = mf.getMeterList();
        addMarker(mL.get(0).getLocation());
-        for(int i = 0; i < mL.size()/40; i++){
-            addMarker(mL.get(i), "time");
+        for(int i = 0; i < mL.size()/5; i++){
+            addMarker(mL.get(i), "price");
         }
     }
 

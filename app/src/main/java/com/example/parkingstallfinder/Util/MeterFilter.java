@@ -42,8 +42,17 @@ public class MeterFilter{
         searchArea[1] = bR;
         if(!currentScope.isEmpty())
             currentScope.clear();
-        //TODO: FIX THIS
-        currentScope = allMeters;
+        //TODO: FIX THIS, WORKS IN DEBUG BUT NOT PRODUCTION
+        for(int i = 0; i < allMeters.size(); i++){
+            Meter meter = allMeters.get(i);
+            LatLng location = meter.getLocation();
+            if(location.longitude > tL.longitude && location.latitude < tL.latitude){
+                if(location.longitude < bR.longitude && location.latitude > bR.latitude){
+                    currentScope.add(meter);
+                }
+            }
+        }
+        //currentScope = allMeters;
     }
 
     /**
