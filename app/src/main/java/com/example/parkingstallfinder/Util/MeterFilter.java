@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.parkingstallfinder.Util.DataObserver.HttpHandler;
-import com.example.parkingstallfinder.Util.DataObserver.VanPojo;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -43,6 +42,10 @@ public class MeterFilter{
         if(!currentScope.isEmpty())
             currentScope.clear();
         //TODO: FIX THIS
+        double ulLat = tL.latitude;
+        double ulLong = tL.longitude;
+        double lrLat = bR.latitude;
+        double lrLon = bR.longitude;
         currentScope = allMeters;
     }
 
@@ -121,9 +124,15 @@ public class MeterFilter{
                             meterData.setDescription("Not Known");
                         }
                         try{
-                            meterData.setPrice(data.getString("r_mf_9a_6p"));
+                            // r_mf_6p_10
+                            // r_sa_9a_6p
+                            // r_mf_9a_6p
+                            // r_su_8p_10
+                            // r_sa_6p_10
+                            meterData.setPrice("monday", 9, data.getString("r_mf_9a_6p"));
                         }catch (Exception e){
-                            meterData.setPrice("Not known");
+                            meterData.setPrice("monday", 0,  "Not known");
+                            Log.e("JSON", "Not known time.");
                         }
 
                         allMeters.add(meterData);
@@ -152,9 +161,9 @@ public class MeterFilter{
                             meterData.setDescription("Not Known");
                         }
                         try{
-                            meterData.setPrice(data.getString("r_mf_9a_6p"));
+                            //meterData.setPrice(data.getString("r_mf_9a_6p"));
                         }catch (Exception e){
-                            meterData.setPrice("Not known");
+                            //meterData.setPrice("Not known");
                         }
 
                         allMeters.add(meterData);

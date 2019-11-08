@@ -83,7 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void addMarker(Meter meter){
         LatLng location = meter.getLocation();
         String msg = String.format(Locale.CANADA, "Meter: Lat: %4.3f  Lon: %4.3f Price: %s ",
-                location.latitude, location.longitude, meter.getPrice());
+                location.latitude, location.longitude, meter.getPrice("monday", 10));
 
         mMap.addMarker(new MarkerOptions().position(location).title(msg));
 
