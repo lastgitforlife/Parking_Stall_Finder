@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.parkingstallfinder.Util.Meter;
 import com.example.parkingstallfinder.Util.MeterFilter;
@@ -91,4 +92,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         float zoomLevel = 13.0f;
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
     }
+
+    public void onZoom(View v) {
+        if (v.getId() == R.id.btnZoomIn)
+            mMap.animateCamera(CameraUpdateFactory.zoomIn());
+        else
+            mMap.animateCamera(CameraUpdateFactory.zoomOut());
+    }
+
 }
