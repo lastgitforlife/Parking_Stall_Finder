@@ -58,7 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mf.search(van, van2);
         ArrayList<Meter> mL = mf.getMeterList();
        addMarker(mL.get(0).getLocation());
-        for(int i = 0; i < mL.size()/5; i++){
+        for(int i = 0; i < mL.size()/10; i++){
             addMarker(mL.get(i), "price");
         }
     }
