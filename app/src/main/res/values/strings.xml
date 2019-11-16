@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">Parking Stall Finder</string>
     <string name="title_activity_maps">Map</string>
+    <string name="New_West_maps_activity">New West Meters</string>
+    <string name="Vancouver_maps_activity">Vancouver Meters</string>
     <string name="search">Search</string>
     <string name="mapType">New West</string>
     <string name="zoomIn">+</string>
     <string name="zoomOut">-</string>
+    <string name="checkbox">CheckBox</string>
+
     <string name="custom">Custom Map</string>
     <string name="current_location">Current Location</string>
     <string-array name="preference">
