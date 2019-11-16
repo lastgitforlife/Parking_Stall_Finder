@@ -3,9 +3,11 @@ package com.example.parkingstallfinder;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.parkingstallfinder.Util.Meter;
 import com.example.parkingstallfinder.Util.MeterFilter;
@@ -44,6 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
 
         // Add a marker in Vancouver and move the camera
@@ -70,6 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mL.get(0).getLocation(), zoomLevel));
     }
 
+
     /**
      * Easy add marker.
      * @param location LatLng of location you want a marker at.
@@ -80,6 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.addMarker(new MarkerOptions().position(location).title(msg));
     }
+
 
     /**
      * Easy add marker for Meter data.
@@ -95,4 +100,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.addMarker(new MarkerOptions().position(location).title(msg));
     }
+    public void onChangeMapType(View v) {
+//        if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL)
+//            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+//        else
+//            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+
+        if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL)
+            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        else
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+    }
+    public void onZoom(View v) {
+        if (v.getId() == R.id.btnZoomIn)
+            mMap.animateCamera(CameraUpdateFactory.zoomIn());
+        else
+            mMap.animateCamera(CameraUpdateFactory.zoomOut());
+    }
+
 }

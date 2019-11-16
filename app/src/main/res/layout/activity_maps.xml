@@ -30,6 +30,7 @@
             android:layout_gravity="center_vertical"
             android:onClick="onZoom"/>
 
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,6 +38,15 @@
             android:text="@string/zoomOut"
             android:layout_gravity="center_vertical"
             android:onClick="onZoom"/>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnChangeMapType"
+            android:text="@string/mapType"
+            android:onClick="onChangeMapType"/>
+
 
     </LinearLayout>
 </fragment>
