@@ -2,7 +2,7 @@
     <string name="app_name">Parking Stall Finder</string>
     <string name="title_activity_maps">Map</string>
     <string name="search">Search</string>
-    <string name="mapType">Toggle Type</string>
+    <string name="mapType">New West</string>
     <string name="zoomIn">+</string>
     <string name="zoomOut">-</string>
     <string name="custom">Custom Map</string>
