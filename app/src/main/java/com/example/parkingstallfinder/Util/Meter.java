@@ -6,6 +6,10 @@ import java.io.IOError;
 import java.util.HashMap;
 
 public class Meter {
+    /**
+     * Coordinates, Date, Time, Rate
+     */
+    //TODO Add New West Meters. Add Max time allowed at meter
 
     private LatLng location;
     private String description;

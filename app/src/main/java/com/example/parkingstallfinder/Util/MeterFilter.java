@@ -1,6 +1,8 @@
 package com.example.parkingstallfinder.Util;
 
-import android.content.Context;
+
+import android.app.Activity;
+import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -10,6 +12,7 @@ import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -21,12 +24,14 @@ public class MeterFilter{
     private ArrayList<Meter> currentScope; // Meters currently in search area.
     //TEMP TILL SEARCH IS FIXED
     private ArrayList<Meter> allMeters = new ArrayList<>(); // ALL METERS.
+    private Activity activity; // Used to path to New West JSON
 
     /**
      * Constructor for Meter Filter.
      */
-    public MeterFilter(){
+    public MeterFilter(Activity activity){
         currentScope = new ArrayList<>();
+        this.activity = activity;
         //TODO: FIX THIS
         GetInformation getInfo = new GetInformation();
         getInfo.execute();
@@ -43,16 +48,19 @@ public class MeterFilter{
         if(!currentScope.isEmpty())
             currentScope.clear();
         //TODO: FIX THIS, WORKS IN DEBUG BUT NOT PRODUCTION
+        //TODO: Runs with allMeters
         for(int i = 0; i < allMeters.size(); i++){
             Meter meter = allMeters.get(i);
             LatLng location = meter.getLocation();
-            if(location.longitude > tL.longitude && location.latitude < tL.latitude){ // Breakpoint here to get it to work -\('_')/-
-                if(location.longitude < bR.longitude && location.latitude > bR.latitude){
-                    currentScope.add(meter);
-                }
+            // Breakpoint here to get it to work -\('_')/-
+            if(location.longitude > tL.longitude && location.latitude < tL.latitude &&
+                    location.longitude < bR.longitude && location.latitude > bR.latitude){
+//                if(location.longitude < bR.longitude && location.latitude > bR.latitude){
+                currentScope.add(meter);
+//                }
             }
         }
-        //currentScope = allMeters;
+        currentScope = allMeters; // TODO: Keep line until search works
     }
 
     /**
@@ -63,6 +71,7 @@ public class MeterFilter{
         return searchArea;
     }
 
+    //TODO
     /**
      * Returns the meter at a specific LatLng inside the search area.
      * If no meter found will throw NoMeterException.
@@ -74,6 +83,7 @@ public class MeterFilter{
         return null;
     }
 
+    //TODO
     /**
      * Returns all meters in the search area. If no meters are found
      * then will throw NoMeterException.
@@ -87,7 +97,8 @@ public class MeterFilter{
     }
 
     public boolean gettingData(){
-        if(allMeters.size() < 1){
+//        if(allMeters.size() < 1){
+        if(allMeters.isEmpty()) {
             return true;
         }
         return false;
@@ -101,13 +112,28 @@ public class MeterFilter{
         @Override
         protected Void doInBackground(Void... voids) {
             HttpHandler sh = new HttpHandler();
-            String jsonStr = null;
+            String jsonStr;
 
             // Making a request ot url and getting response
+            // Get Vancouver meters
             jsonStr = sh.makeServiceCall("https://opendata.vancouver.ca/api/records/1.0/search/?dataset=parking-meters&rows=9999&facet=r_mf_9a_6p&facet=r_mf_6p_10&facet=r_sa_9a_6p&facet=r_sa_6p_10&facet=r_su_9a_6p&facet=r_su_6p_10&facet=timeineffe&facet=t_mf_9a_6p&facet=t_mf_6p_10&facet=t_sa_9a_6p&facet=t_sa_6p_10&facet=t_su_9a_6p&facet=t_su_6p_10&facet=creditcard&facet=geo_local_area");
             Log.e("JSON:" , jsonStr);
             vanData(jsonStr); //Gets vancouver json data.
-            //newWestData(); // Gets New Westminster json data.
+
+            // Get New West meters
+            try {
+                AssetManager am = activity.getAssets();
+                String path = "json/parking_meters_nwest.json";
+                InputStream is = am.open(path);
+                int size = is.available();
+                byte[] buffer = new byte[size];
+                is.read(buffer);
+                is.close();
+                jsonStr = new String(buffer, "UTF-8");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            newWestData(jsonStr); // Gets New Westminster json data.
 
             return null;
         }
@@ -209,6 +235,7 @@ public class MeterFilter{
             }
         }
 
+        //TODO
         private void newWestData(String jsonStr){
             if(jsonStr != null){
                 try{

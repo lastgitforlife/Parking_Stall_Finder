@@ -2,6 +2,7 @@ package com.example.parkingstallfinder;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,17 +50,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng van = new LatLng(49.3, -123.9805344);
         LatLng van2 = new LatLng(49.0504, -122.3905344);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(van));
-        MeterFilter mf = new MeterFilter();
-        for(int i = 0; mf.gettingData();){
-            i++;
-            i--;
-        }
+
+
+        MeterFilter mf = new MeterFilter(this);
+
+        while (mf.gettingData());
+//        for(int i = 0; mf.gettingData();){
+//            i++;
+//            i--;
+//        }
         mf.search(van, van2);
         ArrayList<Meter> mL = mf.getMeterList();
-       addMarker(mL.get(0).getLocation());
-        for(int i = 0; i < mL.size()/5; i++){
+        addMarker(mL.get(0).getLocation()); // TODO Why doesn't it work without this line?
+        // Fill map with markers. Adjust for loop end condition to display more/less meters
+        for(int i = 0; i < mL.size()/20; i++){
             addMarker(mL.get(i), "price");
         }
+        float zoomLevel = 13.0f;
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mL.get(0).getLocation(), zoomLevel));
     }
 
     /**
@@ -71,9 +79,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 location.latitude, location.longitude);
 
         mMap.addMarker(new MarkerOptions().position(location).title(msg));
-
-        float zoomLevel = 13.0f;
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
     }
 
     /**
@@ -83,12 +88,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void addMarker(Meter meter, String filter){
         LatLng location = meter.getLocation();
+
+        //TODO Needs to be adapted for current or target day/time
         String msg = String.format(Locale.CANADA, "Meter: Lat: %4.3f  Lon: %4.3f %s: %s ",
                 location.latitude, location.longitude, filter,  meter.getInfo(filter, "saturday", 19));
 
         mMap.addMarker(new MarkerOptions().position(location).title(msg));
-
-        float zoomLevel = 13.0f;
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
     }
 }
