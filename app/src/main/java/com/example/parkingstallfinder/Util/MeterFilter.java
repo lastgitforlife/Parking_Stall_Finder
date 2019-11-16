@@ -52,7 +52,7 @@ public class MeterFilter{
                 }
             }
         }
-        //currentScope = allMeters;
+        currentScope = allMeters;
     }
 
     /**
