@@ -67,7 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         addMarker(mL.get(0).getLocation()); // TODO Why doesn't it work without this line?
         // Fill map with markers. Adjust for loop end condition to display more/less meters
         for(int i = 0; i < mL.size()/20; i++){
-            addMarker(mL.get(i), "price");
+            addMarker(mL.get(i), "time");
         }
         float zoomLevel = 13.0f;
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mL.get(0).getLocation(), zoomLevel));

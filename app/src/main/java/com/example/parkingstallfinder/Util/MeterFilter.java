@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 /**
@@ -25,6 +26,7 @@ public class MeterFilter{
     //TEMP TILL SEARCH IS FIXED
     private ArrayList<Meter> allMeters = new ArrayList<>(); // ALL METERS.
     private Activity activity; // Used to path to New West JSON
+    private boolean dataLoaded = false;
 
     /**
      * Constructor for Meter Filter.
@@ -39,8 +41,8 @@ public class MeterFilter{
 
     /**
      * Changes the current search area for meters.
-     * @param tL LatLng Coordinate object.
-     * @param bR LatLng Coordinate object.
+     * @param tL Top left LatLng Coordinate object.
+     * @param bR Bottom Right LatLng Coordinate object.
      */
     public void search(LatLng tL, LatLng bR){
         searchArea[0] = tL;
@@ -55,12 +57,9 @@ public class MeterFilter{
             // Breakpoint here to get it to work -\('_')/-
             if(location.longitude > tL.longitude && location.latitude < tL.latitude &&
                     location.longitude < bR.longitude && location.latitude > bR.latitude){
-//                if(location.longitude < bR.longitude && location.latitude > bR.latitude){
                 currentScope.add(meter);
-//                }
             }
         }
-        currentScope = allMeters; // TODO: Keep line until search works
     }
 
     /**
@@ -97,11 +96,7 @@ public class MeterFilter{
     }
 
     public boolean gettingData(){
-//        if(allMeters.size() < 1){
-        if(allMeters.isEmpty()) {
-            return true;
-        }
-        return false;
+        return !dataLoaded;
     }
 
     // PRIVATE HELPER METHODS
@@ -112,28 +107,39 @@ public class MeterFilter{
         @Override
         protected Void doInBackground(Void... voids) {
             HttpHandler sh = new HttpHandler();
-            String jsonStr;
+            String jsonStr = "";
 
-            // Making a request ot url and getting response
-            // Get Vancouver meters
-            jsonStr = sh.makeServiceCall("https://opendata.vancouver.ca/api/records/1.0/search/?dataset=parking-meters&rows=9999&facet=r_mf_9a_6p&facet=r_mf_6p_10&facet=r_sa_9a_6p&facet=r_sa_6p_10&facet=r_su_9a_6p&facet=r_su_6p_10&facet=timeineffe&facet=t_mf_9a_6p&facet=t_mf_6p_10&facet=t_sa_9a_6p&facet=t_sa_6p_10&facet=t_su_9a_6p&facet=t_su_6p_10&facet=creditcard&facet=geo_local_area");
-            Log.e("JSON:" , jsonStr);
-            vanData(jsonStr); //Gets vancouver json data.
-
-            // Get New West meters
+//          Get Vancouver meters
             try {
                 AssetManager am = activity.getAssets();
-                String path = "json/parking_meters_nwest.json";
+                String path = "json/parking_meters_van.json";
                 InputStream is = am.open(path);
                 int size = is.available();
                 byte[] buffer = new byte[size];
                 is.read(buffer);
                 is.close();
-                jsonStr = new String(buffer, "UTF-8");
-            } catch (Exception e) {
+                jsonStr = new String(buffer, StandardCharsets.UTF_8);
+                Log.e("JSON: ", jsonStr);
+
+            }catch (Exception e){
                 e.printStackTrace();
             }
-            newWestData(jsonStr); // Gets New Westminster json data.
+            vanData(jsonStr);
+
+//            // Get New West meters
+//            try {
+//                AssetManager am = activity.getAssets();
+//                String path = "json/parking_meters_nwest.json";
+//                InputStream is = am.open(path);
+//                int size = is.available();
+//                byte[] buffer = new byte[size];
+//                is.read(buffer);
+//                is.close();
+//                jsonStr = new String(buffer, "UTF-8");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            newWestData(jsonStr); // Gets New Westminster json data.
 
             return null;
         }
@@ -141,8 +147,8 @@ public class MeterFilter{
         private void vanData(String jsonStr){
             if(jsonStr != null){
                 try{
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-                    JSONArray jsArray = jsonObj.getJSONArray("records");
+                    JSONObject jsonObj;
+                    JSONArray jsArray = new JSONArray(jsonStr);
                     for(int i = 0; i < jsArray.length(); i++){
                         jsonObj = jsArray.getJSONObject(i);
                         JSONObject data = jsonObj.getJSONObject("fields");
@@ -229,6 +235,7 @@ public class MeterFilter{
                         }
                         allMeters.add(meterData);
                     }
+                    dataLoaded = true;
                 }catch(Exception e){
                     Log.e("JSON", e.getLocalizedMessage());
                 }
