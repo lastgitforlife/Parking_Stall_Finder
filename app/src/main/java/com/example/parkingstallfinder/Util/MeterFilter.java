@@ -266,36 +266,36 @@ public class MeterFilter{
                             meterData.setTime("saturday", 19, time);
                             meterData.setTime("monday", 19, time);
                         } catch (Exception e){
-                            meterData.setTime("monday", 9, "NA");
-                            meterData.setTime("tuesday", 9, "NA");
-                            meterData.setTime("wednesday", 9, "NA");
-                            meterData.setTime("thursday", 9, "NA");
-                            meterData.setTime("friday", 9, "NA");
-                            meterData.setTime("saturday", 9, "NA");
-                            meterData.setTime("sunday", 9, "NA");
-                            meterData.setTime("monday", 19, "NA");
-                            meterData.setTime("tuesday", 19, "NA");
-                            meterData.setTime("wednesday", 19, "NA");
-                            meterData.setTime("thursday", 19, "NA");
-                            meterData.setTime("friday", 19, "NA");
-                            meterData.setTime("saturday", 19, "NA");
-                            meterData.setTime("monday", 19, "NA");
+                            meterData.setTime("monday", 9, "Unknown");
+                            meterData.setTime("tuesday", 9, "Unknown");
+                            meterData.setTime("wednesday", 9, "Unknown");
+                            meterData.setTime("thursday", 9, "Unknown");
+                            meterData.setTime("friday", 9, "Unknown");
+                            meterData.setTime("saturday", 9, "Unknown");
+                            meterData.setTime("sunday", 9, "Unknown");
+                            meterData.setTime("monday", 19, "Unknown");
+                            meterData.setTime("tuesday", 19, "Unknown");
+                            meterData.setTime("wednesday", 19, "Unknown");
+                            meterData.setTime("thursday", 19, "Unknown");
+                            meterData.setTime("friday", 19, "Unknown");
+                            meterData.setTime("saturday", 19, "Unknown");
+                            meterData.setTime("monday", 19, "Unknown");
                         }
                         try{
-                            meterData.setPrice("monday", 9, "NA");
-                            meterData.setPrice("tuesday", 9, "NA");
-                            meterData.setPrice("wednesday", 9, "NA");
-                            meterData.setPrice("thursday", 9, "NA");
-                            meterData.setPrice("friday", 9, "NA");
-                            meterData.setPrice("saturday", 9, "NA");
-                            meterData.setPrice("sunday", 9, "NA");
-                            meterData.setPrice("monday", 19, "NA");
-                            meterData.setPrice("tuesday", 19, "NA");
-                            meterData.setPrice("wednesday", 19, "NA");
-                            meterData.setPrice("thursday", 19, "NA");
-                            meterData.setPrice("friday", 19, "NA");
-                            meterData.setPrice("saturday", 19, "NA");
-                            meterData.setPrice("monday", 19, "NA");
+                            meterData.setPrice("monday", 9, "Unknown");
+                            meterData.setPrice("tuesday", 9, "Unknown");
+                            meterData.setPrice("wednesday", 9, "Unknown");
+                            meterData.setPrice("thursday", 9, "Unknown");
+                            meterData.setPrice("friday", 9, "Unknown");
+                            meterData.setPrice("saturday", 9, "Unknown");
+                            meterData.setPrice("sunday", 9, "Unknown");
+                            meterData.setPrice("monday", 19, "Unknown");
+                            meterData.setPrice("tuesday", 19, "Unknown");
+                            meterData.setPrice("wednesday", 19, "Unknown");
+                            meterData.setPrice("thursday", 19, "Unknown");
+                            meterData.setPrice("friday", 19, "Unknown");
+                            meterData.setPrice("saturday", 19, "Unknown");
+                            meterData.setPrice("monday", 19, "Unknown");
                         }catch (Exception e){
                             //meterData.setPrice("Not known");
                         }

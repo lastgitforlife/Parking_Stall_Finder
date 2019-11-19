@@ -87,6 +87,9 @@ public class Meter implements ClusterItem {
         }else if(time >18 && time <= 22){
             return"6p_10";
         }
+        else if (time < 0 || time >= 24){
+            return "";
+        }
         throw new IllegalArgumentException("Invalid time code");
     }
 
