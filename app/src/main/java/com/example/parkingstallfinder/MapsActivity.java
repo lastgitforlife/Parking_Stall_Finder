@@ -58,18 +58,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         MeterFilter mf = new MeterFilter(this);
-
+        //TODO: Get rid of soft lock.
         while (mf.gettingData());
-//        for(int i = 0; mf.gettingData();){
-//            i++;
-//            i--;
-//        }
         mf.search(van, van2);
         ArrayList<Meter> mL = mf.getMeterList();
-//        addMarker(mL.get(0).getLocation()); // TODO Why doesn't it work without this line?
         // Fill map with markers. Adjust for loop end condition to display more/less meters
-        for(int i = 0; i < mL.size()/20; i++){
-            addMarker(mL.get(i), "time");
+        for(int i = 0; i < mL.size(); i++){
+            addMarker(mL.get(i), "price");
         }
         float zoomLevel = 13.0f;
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
