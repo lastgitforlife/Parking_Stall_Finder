@@ -108,9 +108,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //TODO Needs to be adapted for current or target day/time
 
         Spinner time = findViewById(R.id.time);
-//        float time = time.tofloat();
+        Spinner day = findViewById(R.id.day);
         String msg = String.format(Locale.CANADA, "Meter: Lat: %4.3f  Lon: %4.3f %s: %s ",
-                location.latitude, location.longitude, filter,  meter.getInfo(filter, "day.lower", time));
+                location.latitude, location.longitude, filter,  meter.getInfo(filter, day.getSelectedItem().toString().toLowerCase(), Float.parseFloat(time.getSelectedItem().toString())));
 
         mMap.addMarker(new MarkerOptions().position(location).title(msg));
 //        mMap.addMarker(new MarkerOptions().position(location).title(msg).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
