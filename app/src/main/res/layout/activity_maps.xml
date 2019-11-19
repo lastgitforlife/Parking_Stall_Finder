@@ -8,40 +8,36 @@
     android:layout_height="match_parent"
     tools:context=".MapsActivity" >
 
-        <fragment>
-
-            <Spinner
-                android:id="@+id/day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:layout_gravity="top"
-                android:entries="@array/preference"/>
-
-            <Spinner
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:layout_gravity="top"
-                android:entries="@array/preference"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnFiter"
-                android:text="@string/zoomIn"
-                android:layout_gravity="center_vertical"
-                android:onClick="filter"/>
-
-
-        </fragment>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_gravity="top"
+            android:entries="@array/day"/>
+
+        <Spinner
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_gravity="top"
+            android:entries="@array/time"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnFilter"
+            android:text="@string/btnFilter"
+            android:layout_gravity="center_vertical"
+            android:onClick="onFilter"/>
 
         <Button
             android:layout_width="wrap_content"

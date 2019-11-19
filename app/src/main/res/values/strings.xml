@@ -9,11 +9,20 @@
     <string name="zoomOut">-</string>
     <string name="checkbox">CheckBox</string>
 
+    <string name="btnFilter">Filter</string>
     <string name="custom">Custom Map</string>
     <string name="current_location">Current Location</string>
     <string-array name="preference">
         <item>Location</item>
         <item>Price</item>
+    </string-array>
+    <string-array name="day">
+        <item>monday</item>
+        <item>tuesday</item>
+    </string-array>
+    <string-array name="time">
+        <item>9</item>
+        <item>19</item>
     </string-array>
 
 </resources>
