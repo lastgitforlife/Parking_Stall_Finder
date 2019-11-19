@@ -1,5 +1,6 @@
 package com.example.parkingstallfinder;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.Activity;
@@ -8,11 +9,13 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Spinner;
 
 import com.example.parkingstallfinder.Util.Meter;
 import com.example.parkingstallfinder.Util.MeterFilter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -26,15 +29,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private boolean vanFocusBool = true;
+    Spinner spinner;
+    Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        // Obtain the SupportMapFragment and get notified when thez map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+//        MapFragment mapFragment1 = MapFragment.newInstance();
+//        android.app.FragmentTransaction trans = getFragmentManager().beginTransaction();
+//        trans.add(R.id.meters, mapFragment1);
+//        trans.commit();
+//        mapFragment.getMapAsync(this);
+
+
     }
 
 
@@ -93,8 +106,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng location = meter.getLocation();
 
         //TODO Needs to be adapted for current or target day/time
+
+        Spinner time = findViewById(R.id.time);
+//        float time = time.tofloat();
         String msg = String.format(Locale.CANADA, "Meter: Lat: %4.3f  Lon: %4.3f %s: %s ",
-                location.latitude, location.longitude, filter,  meter.getInfo(filter, "saturday", 19));
+                location.latitude, location.longitude, filter,  meter.getInfo(filter, "day.lower", time));
 
         mMap.addMarker(new MarkerOptions().position(location).title(msg));
 //        mMap.addMarker(new MarkerOptions().position(location).title(msg).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
