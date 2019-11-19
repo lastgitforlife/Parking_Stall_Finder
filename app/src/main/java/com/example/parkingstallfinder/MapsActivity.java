@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.parkingstallfinder.Util.Meter;
@@ -98,16 +99,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void addMarker(Meter meter, String filter){
         LatLng location = meter.getLocation();
-
-        //TODO Needs to be adapted for current or target day/time
-
-        Spinner time = findViewById(R.id.time);
+        EditText time = findViewById(R.id.time);
         Spinner day = findViewById(R.id.day);
-        String msg = String.format(Locale.CANADA, "Meter: %s: %s ",
-                filter,  meter.getInfo(filter, day.getSelectedItem().toString().toLowerCase(),
-                        Float.parseFloat(time.getSelectedItem().toString())));
-
-        mMap.addMarker(new MarkerOptions().position(location).title(msg));
+        try{
+            float timeFloat = Float.parseFloat(time.getText().toString());
+            String msg = String.format(Locale.CANADA, "Meter: %s: %s ",
+                    filter,  meter.getInfo(filter, day.getSelectedItem().toString().toLowerCase(),
+                            timeFloat));
+            mMap.addMarker(new MarkerOptions().position(location).title(msg));
+        }catch(Exception e){
+            Log.e("Marker error:", e.toString());
+        }
 //        mMap.addMarker(new MarkerOptions().position(location).title(msg).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
 
     }
