@@ -8,14 +8,34 @@
     android:layout_height="match_parent"
     tools:context=".MapsActivity" >
 
-    <Spinner
-        android:id="@+id/continent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_gravity="top"
-        android:background="@color/colorPrimaryDark"
-        android:entries="@array/preference"/>
+        <fragment>
+
+            <Spinner
+                android:id="@+id/day.lower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_gravity="top"
+                android:entries="@array/preference"/>
+
+            <Spinner
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_gravity="top"
+                android:entries="@array/preference"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnFiter"
+                android:text="@string/zoomIn"
+                android:layout_gravity="center_vertical"
+                android:onClick="filter"/>
+
+
+        </fragment>
 
     <LinearLayout
         android:layout_width="wrap_content"
