@@ -235,7 +235,7 @@ public class MeterFilter{
                         }
                         allMeters.add(meterData);
                     }
-                    dataLoaded = true;
+
                 }catch(Exception e){
                     Log.e("JSON", e.getLocalizedMessage());
                 }
@@ -247,27 +247,68 @@ public class MeterFilter{
             if(jsonStr != null){
                 try{
                     JSONObject jsonObj = new JSONObject(jsonStr);
-                    JSONArray jsArray = jsonObj.getJSONArray("records");
+                    JSONArray jsArray = jsonObj.getJSONArray("features");
                     for(int i = 0; i < jsArray.length(); i++){
                         jsonObj = jsArray.getJSONObject(i);
-                        JSONObject data = jsonObj.getJSONObject("fields");
-                        JSONObject dataGeom = data.getJSONObject("geom");
+                        JSONObject dataGeom = jsonObj.getJSONObject("geometry");
                         JSONArray coordinates = dataGeom.getJSONArray("coordinates");
                         LatLng latlng = new LatLng(coordinates.getDouble(1), coordinates.getDouble(0));
                         Meter meterData = new Meter(latlng);
                         try{
-                            meterData.setDescription(data.getString("timeineffe"));
+                            jsonObj = jsonObj.getJSONObject("properties");
+                            String time = jsonObj.getString("Sign_Definition");
+                            meterData.setTime("monday", 9, time);
+                            meterData.setTime("tuesday", 9, time);
+                            meterData.setTime("wednesday", 9, time);
+                            meterData.setTime("thursday", 9, time);
+                            meterData.setTime("friday", 9, time);
+                            meterData.setTime("saturday", 9, time);
+                            meterData.setTime("sunday", 9, time);
+                            meterData.setTime("monday", 19, time);
+                            meterData.setTime("tuesday", 19, time);
+                            meterData.setTime("wednesday", 19, time);
+                            meterData.setTime("thursday", 19, time);
+                            meterData.setTime("friday", 19, time);
+                            meterData.setTime("saturday", 19, time);
+                            meterData.setTime("monday", 19, time);
                         } catch (Exception e){
-                            meterData.setDescription("Not Known");
+                            meterData.setTime("monday", 9, "NA");
+                            meterData.setTime("tuesday", 9, "NA");
+                            meterData.setTime("wednesday", 9, "NA");
+                            meterData.setTime("thursday", 9, "NA");
+                            meterData.setTime("friday", 9, "NA");
+                            meterData.setTime("saturday", 9, "NA");
+                            meterData.setTime("sunday", 9, "NA");
+                            meterData.setTime("monday", 19, "NA");
+                            meterData.setTime("tuesday", 19, "NA");
+                            meterData.setTime("wednesday", 19, "NA");
+                            meterData.setTime("thursday", 19, "NA");
+                            meterData.setTime("friday", 19, "NA");
+                            meterData.setTime("saturday", 19, "NA");
+                            meterData.setTime("monday", 19, "NA");
                         }
                         try{
-                            //meterData.setPrice(data.getString("r_mf_9a_6p"));
+                            meterData.setPrice("monday", 9, "NA");
+                            meterData.setPrice("tuesday", 9, "NA");
+                            meterData.setPrice("wednesday", 9, "NA");
+                            meterData.setPrice("thursday", 9, "NA");
+                            meterData.setPrice("friday", 9, "NA");
+                            meterData.setPrice("saturday", 9, "NA");
+                            meterData.setPrice("sunday", 9, "NA");
+                            meterData.setPrice("monday", 19, "NA");
+                            meterData.setPrice("tuesday", 19, "NA");
+                            meterData.setPrice("wednesday", 19, "NA");
+                            meterData.setPrice("thursday", 19, "NA");
+                            meterData.setPrice("friday", 19, "NA");
+                            meterData.setPrice("saturday", 19, "NA");
+                            meterData.setPrice("monday", 19, "NA");
                         }catch (Exception e){
                             //meterData.setPrice("Not known");
                         }
 
                         allMeters.add(meterData);
                     }
+                    dataLoaded = true;
                 }catch(Exception e){
                     Log.e("JSON", e.getLocalizedMessage());
                 }

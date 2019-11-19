@@ -62,7 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ArrayList<Meter> mL = mf.getMeterList();
         // Fill map with markers. Adjust for loop end condition to display more/less meters
         for(int i = 0; i < mL.size(); i++){
-            addMarker(mL.get(i), "time");
+            addMarker(mL.get(i), "price");
         }
         float zoomLevel = 13.0f;
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mL.get(0).getLocation(), zoomLevel));
