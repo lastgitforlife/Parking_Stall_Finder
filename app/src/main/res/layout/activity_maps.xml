@@ -38,6 +38,8 @@
             android:id="@+id/btnFilter"
             android:text="@string/btnFilter"
             android:layout_gravity="center_vertical"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
             android:onClick="onFilter"/>
 
         <Button
@@ -46,6 +48,8 @@
             android:id="@+id/btnZoomIn"
             android:text="@string/zoomIn"
             android:layout_gravity="center_vertical"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
             android:onClick="onZoom"/>
 
 
@@ -55,6 +59,8 @@
             android:id="@+id/btnZoomOut"
             android:text="@string/zoomOut"
             android:layout_gravity="center_vertical"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
             android:onClick="onZoom"/>
 
 
@@ -63,6 +69,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnChangeMapType"
             android:text="@string/mapType"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
             android:onClick="onChangeMapType"/>
 
 
