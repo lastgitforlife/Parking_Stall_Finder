@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".MapsActivity" >
 
-        <fragment>
+        <LinearLayout>
 
             <Spinner
                 android:id="@+id/day"
@@ -29,13 +29,13 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/btnFiter"
+                android:id="@+id/btnFilter"
                 android:text="@string/zoomIn"
-                android:layout_gravity="center_vertical"
-                android:onClick="filter"/>
+                android:layout_gravity="center_vertical"/>
+<!--                android:onClick="filter"/>-->
 
 
-        </fragment>
+        </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
