@@ -69,15 +69,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         MeterFilter mf = new MeterFilter(this);
-
+        //TODO: Get rid of soft lock.
         while (mf.gettingData());
-//        for(int i = 0; mf.gettingData();){
-//            i++;
-//            i--;
-//        }
         mf.search(van, van2);
         ArrayList<Meter> mL = mf.getMeterList();
-        addMarker(mL.get(0).getLocation()); // TODO Why doesn't it work without this line?
         // Fill map with markers. Adjust for loop end condition to display more/less meters
         for(int i = 0; i < mL.size(); i++){
             addMarker(mL.get(i), "price");
@@ -117,12 +112,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(location).title(msg));
     }
     public void onChangeMapType(View v) {
-//        if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL)
-//            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-//        else
-//            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
-
         if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL)
             mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         else

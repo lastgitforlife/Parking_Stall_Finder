@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 /**
@@ -25,6 +26,7 @@ public class MeterFilter{
     //TEMP TILL SEARCH IS FIXED
     private ArrayList<Meter> allMeters = new ArrayList<>(); // ALL METERS.
     private Activity activity; // Used to path to New West JSON
+    private boolean dataLoaded = false;
 
     /**
      * Constructor for Meter Filter.
@@ -39,8 +41,8 @@ public class MeterFilter{
 
     /**
      * Changes the current search area for meters.
-     * @param tL LatLng Coordinate object.
-     * @param bR LatLng Coordinate object.
+     * @param tL Top left LatLng Coordinate object.
+     * @param bR Bottom Right LatLng Coordinate object.
      */
     public void search(LatLng tL, LatLng bR){
         searchArea[0] = tL;
@@ -55,12 +57,9 @@ public class MeterFilter{
             // Breakpoint here to get it to work -\('_')/-
             if(location.longitude > tL.longitude && location.latitude < tL.latitude &&
                     location.longitude < bR.longitude && location.latitude > bR.latitude){
-//                if(location.longitude < bR.longitude && location.latitude > bR.latitude){
                 currentScope.add(meter);
-//                }
             }
         }
-        currentScope = allMeters; // TODO: Keep line until search works
     }
 
     /**
@@ -97,11 +96,7 @@ public class MeterFilter{
     }
 
     public boolean gettingData(){
-//        if(allMeters.size() < 1){
-        if(allMeters.isEmpty()) {
-            return true;
-        }
-        return false;
+        return !dataLoaded;
     }
 
     // PRIVATE HELPER METHODS
@@ -112,13 +107,24 @@ public class MeterFilter{
         @Override
         protected Void doInBackground(Void... voids) {
             HttpHandler sh = new HttpHandler();
-            String jsonStr;
+            String jsonStr = "";
 
-            // Making a request ot url and getting response
-            // Get Vancouver meters
-            jsonStr = sh.makeServiceCall("https://opendata.vancouver.ca/api/records/1.0/search/?dataset=parking-meters&rows=9999&facet=r_mf_9a_6p&facet=r_mf_6p_10&facet=r_sa_9a_6p&facet=r_sa_6p_10&facet=r_su_9a_6p&facet=r_su_6p_10&facet=timeineffe&facet=t_mf_9a_6p&facet=t_mf_6p_10&facet=t_sa_9a_6p&facet=t_sa_6p_10&facet=t_su_9a_6p&facet=t_su_6p_10&facet=creditcard&facet=geo_local_area");
-            Log.e("JSON:" , jsonStr);
-            vanData(jsonStr); //Gets vancouver json data.
+//          Get Vancouver meters
+            try {
+                AssetManager am = activity.getAssets();
+                String path = "json/parking_meters_van.json";
+                InputStream is = am.open(path);
+                int size = is.available();
+                byte[] buffer = new byte[size];
+                is.read(buffer);
+                is.close();
+                jsonStr = new String(buffer, StandardCharsets.UTF_8);
+                Log.e("JSON: ", jsonStr);
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            vanData(jsonStr);
 
             // Get New West meters
             try {
@@ -141,8 +147,8 @@ public class MeterFilter{
         private void vanData(String jsonStr){
             if(jsonStr != null){
                 try{
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-                    JSONArray jsArray = jsonObj.getJSONArray("records");
+                    JSONObject jsonObj;
+                    JSONArray jsArray = new JSONArray(jsonStr);
                     for(int i = 0; i < jsArray.length(); i++){
                         jsonObj = jsArray.getJSONObject(i);
                         JSONObject data = jsonObj.getJSONObject("fields");
@@ -229,6 +235,7 @@ public class MeterFilter{
                         }
                         allMeters.add(meterData);
                     }
+
                 }catch(Exception e){
                     Log.e("JSON", e.getLocalizedMessage());
                 }
@@ -240,27 +247,68 @@ public class MeterFilter{
             if(jsonStr != null){
                 try{
                     JSONObject jsonObj = new JSONObject(jsonStr);
-                    JSONArray jsArray = jsonObj.getJSONArray("records");
+                    JSONArray jsArray = jsonObj.getJSONArray("features");
                     for(int i = 0; i < jsArray.length(); i++){
                         jsonObj = jsArray.getJSONObject(i);
-                        JSONObject data = jsonObj.getJSONObject("fields");
-                        JSONObject dataGeom = data.getJSONObject("geom");
+                        JSONObject dataGeom = jsonObj.getJSONObject("geometry");
                         JSONArray coordinates = dataGeom.getJSONArray("coordinates");
                         LatLng latlng = new LatLng(coordinates.getDouble(1), coordinates.getDouble(0));
                         Meter meterData = new Meter(latlng);
                         try{
-                            meterData.setDescription(data.getString("timeineffe"));
+                            jsonObj = jsonObj.getJSONObject("properties");
+                            String time = jsonObj.getString("Sign_Definition");
+                            meterData.setTime("monday", 9, time);
+                            meterData.setTime("tuesday", 9, time);
+                            meterData.setTime("wednesday", 9, time);
+                            meterData.setTime("thursday", 9, time);
+                            meterData.setTime("friday", 9, time);
+                            meterData.setTime("saturday", 9, time);
+                            meterData.setTime("sunday", 9, time);
+                            meterData.setTime("monday", 19, time);
+                            meterData.setTime("tuesday", 19, time);
+                            meterData.setTime("wednesday", 19, time);
+                            meterData.setTime("thursday", 19, time);
+                            meterData.setTime("friday", 19, time);
+                            meterData.setTime("saturday", 19, time);
+                            meterData.setTime("monday", 19, time);
                         } catch (Exception e){
-                            meterData.setDescription("Not Known");
+                            meterData.setTime("monday", 9, "NA");
+                            meterData.setTime("tuesday", 9, "NA");
+                            meterData.setTime("wednesday", 9, "NA");
+                            meterData.setTime("thursday", 9, "NA");
+                            meterData.setTime("friday", 9, "NA");
+                            meterData.setTime("saturday", 9, "NA");
+                            meterData.setTime("sunday", 9, "NA");
+                            meterData.setTime("monday", 19, "NA");
+                            meterData.setTime("tuesday", 19, "NA");
+                            meterData.setTime("wednesday", 19, "NA");
+                            meterData.setTime("thursday", 19, "NA");
+                            meterData.setTime("friday", 19, "NA");
+                            meterData.setTime("saturday", 19, "NA");
+                            meterData.setTime("monday", 19, "NA");
                         }
                         try{
-                            //meterData.setPrice(data.getString("r_mf_9a_6p"));
+                            meterData.setPrice("monday", 9, "NA");
+                            meterData.setPrice("tuesday", 9, "NA");
+                            meterData.setPrice("wednesday", 9, "NA");
+                            meterData.setPrice("thursday", 9, "NA");
+                            meterData.setPrice("friday", 9, "NA");
+                            meterData.setPrice("saturday", 9, "NA");
+                            meterData.setPrice("sunday", 9, "NA");
+                            meterData.setPrice("monday", 19, "NA");
+                            meterData.setPrice("tuesday", 19, "NA");
+                            meterData.setPrice("wednesday", 19, "NA");
+                            meterData.setPrice("thursday", 19, "NA");
+                            meterData.setPrice("friday", 19, "NA");
+                            meterData.setPrice("saturday", 19, "NA");
+                            meterData.setPrice("monday", 19, "NA");
                         }catch (Exception e){
                             //meterData.setPrice("Not known");
                         }
 
                         allMeters.add(meterData);
                     }
+                    dataLoaded = true;
                 }catch(Exception e){
                     Log.e("JSON", e.getLocalizedMessage());
                 }
