@@ -126,20 +126,20 @@ public class MeterFilter{
             }
             vanData(jsonStr);
 
-//            // Get New West meters
-//            try {
-//                AssetManager am = activity.getAssets();
-//                String path = "json/parking_meters_nwest.json";
-//                InputStream is = am.open(path);
-//                int size = is.available();
-//                byte[] buffer = new byte[size];
-//                is.read(buffer);
-//                is.close();
-//                jsonStr = new String(buffer, "UTF-8");
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            newWestData(jsonStr); // Gets New Westminster json data.
+            // Get New West meters
+            try {
+                AssetManager am = activity.getAssets();
+                String path = "json/parking_meters_nwest.json";
+                InputStream is = am.open(path);
+                int size = is.available();
+                byte[] buffer = new byte[size];
+                is.read(buffer);
+                is.close();
+                jsonStr = new String(buffer, "UTF-8");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            newWestData(jsonStr); // Gets New Westminster json data.
 
             return null;
         }
