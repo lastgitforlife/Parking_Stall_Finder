@@ -103,10 +103,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Spinner day = findViewById(R.id.day);
         try{
             float timeFloat = Float.parseFloat(time.getText().toString());
+            String meterRate = meter.getInfo(filter, day.getSelectedItem().toString().toLowerCase(), timeFloat);
             String msg = String.format(Locale.CANADA, "Meter: %s: %s ",
-                    filter,  meter.getInfo(filter, day.getSelectedItem().toString().toLowerCase(),
-                            timeFloat));
-            mMap.addMarker(new MarkerOptions().position(location).title(msg));
+                    filter, meterRate);
+            try {
+                float rateFloat = Float.parseFloat(meterRate.substring(1));
+                if (rateFloat <= 1) {
+                    mMap.addMarker(new MarkerOptions().position(location).title(msg).icon(
+                            BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                }
+                else if (rateFloat <= 2) {
+                    mMap.addMarker(new MarkerOptions().position(location).title(msg).icon(
+                            BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                }
+                else {
+                    mMap.addMarker(new MarkerOptions().position(location).title(msg).icon(
+                            BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                }
+            } catch(Exception e) {
+                mMap.addMarker(new MarkerOptions().position(location).title(msg).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+            }
+
+//            mMap.addMarker(new MarkerOptions().position(location).title(msg));
         }catch(Exception e){
             Log.e("Marker error:", e.toString());
         }
@@ -158,7 +176,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng van2 = new LatLng(49.0504, -122.3905344);
         meterFilter.search(van, van2);
         ArrayList<Meter> meterList = meterFilter.getMeterList();
-        for(int i = 0; i < meterList.size()/20; i++){
+        for(int i = 0; i < meterList.size(); i+=20){
             addMarker(meterList.get(i), "price");
         }
     }
