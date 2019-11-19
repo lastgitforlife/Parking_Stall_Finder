@@ -106,7 +106,7 @@ public class MeterFilter{
 
         @Override
         protected Void doInBackground(Void... voids) {
-            HttpHandler sh = new HttpHandler();
+//            HttpHandler sh = new HttpHandler();
             String jsonStr = "";
 
 //          Get Vancouver meters

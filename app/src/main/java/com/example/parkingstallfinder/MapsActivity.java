@@ -15,6 +15,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -24,6 +25,7 @@ import java.util.Locale;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private boolean vanFocusBool = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             addMarker(mL.get(i), "time");
         }
         float zoomLevel = 13.0f;
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mL.get(0).getLocation(), zoomLevel));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                new LatLng(49.283662, -123.118197), zoomLevel)); // Pacific Centre
     }
 
 
@@ -99,7 +102,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 location.latitude, location.longitude, filter,  meter.getInfo(filter, "saturday", 19));
 
         mMap.addMarker(new MarkerOptions().position(location).title(msg));
+//        mMap.addMarker(new MarkerOptions().position(location).title(msg).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
+
     }
+
+    //TODO. Make city HashSet
     public void onChangeMapType(View v) {
 //        if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL)
 //            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
@@ -107,11 +114,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
 
-        if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL)
-            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        else
-            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+//        if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL)
+//            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+//        else
+//            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+        float zoomLevel = 13.0f;
+
+        if (vanFocusBool) {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(49.216882, -122.906853), zoomLevel)); // Queens Park
+            vanFocusBool = false;
+        }
+        else {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(49.283662, -123.118197), zoomLevel)); // Pacific Centre
+            vanFocusBool = true;
+        }
+
     }
+
     public void onZoom(View v) {
         if (v.getId() == R.id.btnZoomIn)
             mMap.animateCamera(CameraUpdateFactory.zoomIn());
