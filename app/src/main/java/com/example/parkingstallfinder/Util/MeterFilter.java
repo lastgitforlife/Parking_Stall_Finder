@@ -23,7 +23,6 @@ public class MeterFilter{
 
     private LatLng[] searchArea = new LatLng[2]; // [0] = TopLeft, [1] = BtmRight.
     private ArrayList<Meter> currentScope; // Meters currently in search area.
-    //TEMP TILL SEARCH IS FIXED
     private ArrayList<Meter> allMeters = new ArrayList<>(); // ALL METERS.
     private Activity activity; // Used to path to New West JSON
     private boolean dataLoaded = false;
@@ -34,7 +33,6 @@ public class MeterFilter{
     public MeterFilter(Activity activity){
         currentScope = new ArrayList<>();
         this.activity = activity;
-        //TODO: FIX THIS
         GetInformation getInfo = new GetInformation();
         getInfo.execute();
     }
@@ -49,8 +47,6 @@ public class MeterFilter{
         searchArea[1] = bR;
         if(!currentScope.isEmpty())
             currentScope.clear();
-        //TODO: FIX THIS, WORKS IN DEBUG BUT NOT PRODUCTION
-        //TODO: Runs with allMeters
         for(int i = 0; i < allMeters.size(); i++){
             Meter meter = allMeters.get(i);
             LatLng location = meter.getLocation();
@@ -90,8 +86,6 @@ public class MeterFilter{
      * @return Meter ArrayList.
      */
     public ArrayList<Meter> getMeterList(){
-        //if(currentScope.isEmpty())
-            //throw new NoMeterException("");
         return currentScope;
     }
 

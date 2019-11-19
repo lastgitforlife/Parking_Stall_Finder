@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,12 +32,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean vanFocusBool = true;
     Spinner spinner;
     Fragment fragment;
+    private MeterFilter meterFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when thez map is ready to be used.
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -70,15 +72,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(van));
 
 
-        MeterFilter mf = new MeterFilter(this);
-        //TODO: Get rid of soft lock.
-        while (mf.gettingData());
-        mf.search(van, van2);
-        ArrayList<Meter> mL = mf.getMeterList();
-        // Fill map with markers. Adjust for loop end condition to display more/less meters
-        for(int i = 0; i < mL.size(); i++){
-            addMarker(mL.get(i), "price");
-        }
+        meterFilter = new MeterFilter(this);
         float zoomLevel = 13.0f;
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(49.283662, -123.118197), zoomLevel)); // Pacific Centre
@@ -109,8 +103,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Spinner time = findViewById(R.id.time);
         Spinner day = findViewById(R.id.day);
-        String msg = String.format(Locale.CANADA, "Meter: Lat: %4.3f  Lon: %4.3f %s: %s ",
-                location.latitude, location.longitude, filter,  meter.getInfo(filter, day.getSelectedItem().toString().toLowerCase(), Float.parseFloat(time.getSelectedItem().toString())));
+        String msg = String.format(Locale.CANADA, "Meter: %s: %s ",
+                filter,  meter.getInfo(filter, day.getSelectedItem().toString().toLowerCase(),
+                        Float.parseFloat(time.getSelectedItem().toString())));
 
         mMap.addMarker(new MarkerOptions().position(location).title(msg));
 //        mMap.addMarker(new MarkerOptions().position(location).title(msg).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
@@ -150,6 +145,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.animateCamera(CameraUpdateFactory.zoomIn());
         else
             mMap.animateCamera(CameraUpdateFactory.zoomOut());
+    }
+
+    public void onFilter(View v){
+        mMap.clear();
+        // Fill map with markers. Adjust for loop end condition to display more/less meters
+        //TODO: Get rid of soft lock.
+        while (meterFilter.gettingData());
+        LatLng van = new LatLng(49.3, -123.9805344);
+        LatLng van2 = new LatLng(49.0504, -122.3905344);
+        meterFilter.search(van, van2);
+        ArrayList<Meter> meterList = meterFilter.getMeterList();
+        for(int i = 0; i < meterList.size()/20; i++){
+            addMarker(meterList.get(i), "price");
+        }
+    }
+
+    private class Filter extends AsyncTask<Void, MeterFilter, MeterFilter>{
+
+        /**
+         * Override this method to perform a computation on a background thread. The
+         * specified parameters are the parameters passed to {@link #execute}
+         * by the caller of this task.
+         * <p>
+         * This will normally run on a background thread. But to better
+         * support testing frameworks, it is recommended that this also tolerates
+         * direct execution on the foreground thread, as part of the {@link #execute} call.
+         * <p>
+         * This method can call {@link #publishProgress} to publish updates
+         * on the UI thread.
+         *
+         * @param voids The parameters of the task.
+         * @return A result, defined by the subclass of this task.
+         * @see #onPreExecute()
+         * @see #onPostExecute
+         * @see #publishProgress
+         */
+        @Override
+        protected MeterFilter doInBackground(Void... voids) {
+            return null;
+        }
+
+
     }
 
 }
