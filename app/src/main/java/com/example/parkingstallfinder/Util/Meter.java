@@ -1,11 +1,10 @@
 package com.example.parkingstallfinder.Util;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.maps.android.clustering.ClusterItem;
 
 import java.util.HashMap;
 
-public class Meter implements ClusterItem {
+public class Meter {
     /**
      * Coordinates, Date, Time, Rate
      */
@@ -116,20 +115,5 @@ public class Meter implements ClusterItem {
 
     void setTime(String day, float time, String price){
         info.put(keyCode("time", day, time), price);
-    }
-
-    @Override
-    public LatLng getPosition() {
-        return getLocation();
-    }
-
-    @Override
-    public String getTitle() {
-        return null;
-    }
-
-    @Override
-    public String getSnippet() {
-        return null;
     }
 }
