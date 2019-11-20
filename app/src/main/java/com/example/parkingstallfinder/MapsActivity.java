@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -27,6 +28,7 @@ import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import android.os.Vibrator;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -45,6 +47,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        
+//         Get instance of Vibrator from current Context
+//        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+//        Vibrate for 400 milliseconds
+//        v.vibrate(400);
 
 //        MapFragment mapFragment1 = MapFragment.newInstance();
 //        android.app.FragmentTransaction trans = getFragmentManager().beginTransaction();
