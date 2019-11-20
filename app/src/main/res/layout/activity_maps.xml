@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:layout_gravity="top"
-            android:background="@color/colorPrimaryDark"
+            android:background="@android:color/holo_orange_dark"
+            android:textColor="@android:color/black"
             android:entries="@array/day"/>
 
         <Spinner

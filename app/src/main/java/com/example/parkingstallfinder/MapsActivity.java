@@ -23,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -34,6 +35,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Spinner spinner;
     Fragment fragment;
     private MeterFilter meterFilter;
+    private ClusterManager<Meter> mClusterManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Spinner day = findViewById(R.id.day);
         Spinner timeSpinner = findViewById(R.id.timeSpinner);
         try{
+            float timeFloat = Float.parseFloat(time.getText().toString());
+            String meterRate = meter.getInfo("price", day.getSelectedItem().toString().toLowerCase(), timeFloat);
+            String meterTimeLimit = meter.getInfo("time", day.getSelectedItem().toString().toLowerCase(), timeFloat);
+            String msg = String.format(Locale.CANADA, "Meter: %s: %s %s: %s",
+                    "price", meterRate, "time-limit", meterTimeLimit);
 //            float timeFloat = Float.parseFloat(time.getText().toString());
             float timeFloat = Float.parseFloat(timeSpinner.getSelectedItem().toString().substring(0, 1));
             String meterRate = meter.getInfo(filter, day.getSelectedItem().toString().toLowerCase(), timeFloat);
@@ -160,6 +167,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onFilter(View v){
         mMap.clear();
+        mClusterManager = new ClusterManager<Meter>(this, mMap);
+        mClusterManager.setAnimation(false);
+        mMap.setOnCameraIdleListener(mClusterManager);
+        mMap.setOnMarkerClickListener(mClusterManager);
         // Fill map with markers. Adjust for loop end condition to display more/less meters
         //TODO: Get rid of soft lock.
         while (meterFilter.gettingData());
@@ -167,8 +178,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng van2 = new LatLng(49.0504, -122.3905344);
         meterFilter.search(van, van2);
         ArrayList<Meter> meterList = meterFilter.getMeterList();
-        for(int i = 0; i < meterList.size(); i+=20){
-            addMarker(meterList.get(i), "price");
+        for(int i = 0; i < meterList.size(); i+= 20){
+            addMarker(meterList.get(i), "price"); // Coloured markers
+//            mClusterManager.addItem(meterList.get(i)); //
         }
     }
 

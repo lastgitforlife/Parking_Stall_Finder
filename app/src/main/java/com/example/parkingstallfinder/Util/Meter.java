@@ -1,18 +1,17 @@
 package com.example.parkingstallfinder.Util;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.ClusterItem;
 
-import java.io.IOError;
 import java.util.HashMap;
 
-public class Meter {
+public class Meter implements ClusterItem {
     /**
      * Coordinates, Date, Time, Rate
      */
-    //TODO Add New West Meters. Add Max time allowed at meter
 
     private LatLng location;
-    private String description;
+    private String description = "No description available.";
     /**
      * HashMap that contains times in effect and price.
      * Keys: use KeyCode() method to access.
@@ -112,5 +111,20 @@ public class Meter {
 
     void setTime(String day, float time, String price){
         info.put(keyCode("time", day, time), price);
+    }
+
+    @Override
+    public LatLng getPosition() {
+        return getLocation();
+    }
+
+    @Override
+    public String getTitle() {
+        return null;
+    }
+
+    @Override
+    public String getSnippet() {
+        return null;
     }
 }
