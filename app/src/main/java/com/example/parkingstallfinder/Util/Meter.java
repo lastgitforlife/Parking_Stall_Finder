@@ -43,7 +43,12 @@ public class Meter implements ClusterItem {
      */
     public String getInfo(String type, String day, float time){
         String key = keyCode(type, day, time);
-        return info.get(key);
+        try{
+            return info.get(key);
+        }catch(Exception e){
+            return "Not known";
+        }
+
     }
 
     /**
@@ -87,8 +92,8 @@ public class Meter implements ClusterItem {
         }else if(time >18 && time <= 22){
             return"6p_10";
         }
-        else if (time < 0 || time >= 24){
-            return "";
+        else if (time < 9 || time > 22){
+            return "20p_9a";
         }
         throw new IllegalArgumentException("Invalid time code");
     }
