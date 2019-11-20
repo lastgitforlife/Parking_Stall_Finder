@@ -24,14 +24,23 @@
             android:background="@color/colorPrimaryDark"
             android:entries="@array/day"/>
 
-        <EditText
-            android:id="@+id/time"
+        <Spinner
+            android:id="@+id/timeSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:layout_gravity="top"
-            android:inputType="numberDecimal"
-            />
+            android:background="@color/colorPrimaryDark"
+            android:entries="@array/time"/>
+
+<!--        <EditText-->
+<!--            android:id="@+id/time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="16dp"-->
+<!--            android:layout_gravity="top"-->
+<!--            android:inputType="numberDecimal"-->
+<!--            />-->
 
         <Button
             android:layout_width="wrap_content"

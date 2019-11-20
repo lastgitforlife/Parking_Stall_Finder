@@ -101,8 +101,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng location = meter.getLocation();
         EditText time = findViewById(R.id.time);
         Spinner day = findViewById(R.id.day);
+        Spinner timeSpinner = findViewById(R.id.timeSpinner);
         try{
-            float timeFloat = Float.parseFloat(time.getText().toString());
+//            float timeFloat = Float.parseFloat(time.getText().toString());
+            float timeFloat = Float.parseFloat(timeSpinner.getSelectedItem().toString().substring(0, 1));
             String meterRate = meter.getInfo(filter, day.getSelectedItem().toString().toLowerCase(), timeFloat);
             String msg = String.format(Locale.CANADA, "Meter: %s: %s ",
                     filter, meterRate);
@@ -169,6 +171,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             addMarker(meterList.get(i), "price");
         }
     }
+
+
+
 
     private class Filter extends AsyncTask<Void, MeterFilter, MeterFilter>{
 
