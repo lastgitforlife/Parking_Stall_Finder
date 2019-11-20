@@ -105,16 +105,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Spinner day = findViewById(R.id.day);
         Spinner timeSpinner = findViewById(R.id.timeSpinner);
         try{
-            float timeFloat = Float.parseFloat(time.getText().toString());
+//            float timeFloat = Float.parseFloat(time.getText().toString());
+            float timeFloat = Float.parseFloat(timeSpinner.getSelectedItem().toString().substring(0,2));
             String meterRate = meter.getInfo("price", day.getSelectedItem().toString().toLowerCase(), timeFloat);
             String meterTimeLimit = meter.getInfo("time", day.getSelectedItem().toString().toLowerCase(), timeFloat);
             String msg = String.format(Locale.CANADA, "Meter: %s: %s %s: %s",
                     "price", meterRate, "time-limit", meterTimeLimit);
-//            float timeFloat = Float.parseFloat(time.getText().toString());
-            float timeFloat = Float.parseFloat(timeSpinner.getSelectedItem().toString().substring(0, 1));
-            String meterRate = meter.getInfo(filter, day.getSelectedItem().toString().toLowerCase(), timeFloat);
-            String msg = String.format(Locale.CANADA, "Meter: %s: %s ",
-                    filter, meterRate);
             try {
                 float rateFloat = Float.parseFloat(meterRate.substring(1));
                 if (rateFloat <= 1) {
