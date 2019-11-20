@@ -17,7 +17,6 @@
         <item>Price</item>
     </string-array>
     <string-array name="day">
-        <item>Current</item>
         <item>Sunday</item>
         <item>Monday</item>
         <item>Tuesday</item>

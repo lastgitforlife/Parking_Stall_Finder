@@ -134,17 +134,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //TODO. Make city HashSet
     public void onChangeMapType(View v) {
-//        if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL)
-//            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-//        else
-//            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
-
-//        if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL)
-//            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-//        else
-//            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
         float zoomLevel = 13.0f;
 
         if (vanFocusBool) {
