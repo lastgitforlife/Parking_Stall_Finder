@@ -45,8 +45,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        spinner = findViewById(R.id.timeSpinner);
+        spinner.setSelection(17);
+        spinner = findViewById(R.id.day);
+        spinner.setSelection(5);
+        //TODO
+//        meterFilter = new MeterFilter(this);
+//        while (meterFilter.gettingData());
+//        LatLng van = new LatLng(49.3, -123.9805344);
+//        LatLng van2 = new LatLng(49.0504, -122.3905344);
+//        meterFilter.search(van, van2);
+//        ArrayList<Meter> meterList = meterFilter.getMeterList();
+//        for(int i = 0; i < meterList.size(); i+= 20){
+//            addMarker(meterList.get(i), "price"); // Coloured markers
+//        }
 
-        
+
 //         Get instance of Vibrator from current Context
 //        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 //        Vibrate for 400 milliseconds
@@ -179,9 +193,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             addMarker(meterList.get(i), "price"); // Coloured markers
         }
     }
-
-
-
 
     private class Filter extends AsyncTask<Void, MeterFilter, MeterFilter>{
 
