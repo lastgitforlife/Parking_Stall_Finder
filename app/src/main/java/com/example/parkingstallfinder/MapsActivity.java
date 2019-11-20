@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -45,10 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        spinner = findViewById(R.id.timeSpinner);
-        spinner.setSelection(17);
-        spinner = findViewById(R.id.day);
-        spinner.setSelection(5);
+
         //TODO
 //        meterFilter = new MeterFilter(this);
 //        while (meterFilter.gettingData());
@@ -99,6 +97,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         float zoomLevel = 13.0f;
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(49.283662, -123.118197), zoomLevel)); // Pacific Centre
+        spinner = findViewById(R.id.timeSpinner);
+        spinner.setSelection(17);
+        spinner = findViewById(R.id.day);
+        spinner.setSelection(5);
+        Button filterButton = findViewById(R.id.btnFilter);
+        filterButton.callOnClick();
     }
 
 
