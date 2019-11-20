@@ -24,7 +24,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -37,7 +36,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Spinner spinner;
     Fragment fragment;
     private MeterFilter meterFilter;
-    private ClusterManager<Meter> mClusterManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,10 +168,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onFilter(View v){
         mMap.clear();
-        mClusterManager = new ClusterManager<Meter>(this, mMap);
-        mClusterManager.setAnimation(false);
-        mMap.setOnCameraIdleListener(mClusterManager);
-        mMap.setOnMarkerClickListener(mClusterManager);
         // Fill map with markers. Adjust for loop end condition to display more/less meters
         //TODO: Get rid of soft lock.
         while (meterFilter.gettingData());
@@ -183,7 +177,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ArrayList<Meter> meterList = meterFilter.getMeterList();
         for(int i = 0; i < meterList.size(); i+= 20){
             addMarker(meterList.get(i), "price"); // Coloured markers
-//            mClusterManager.addItem(meterList.get(i)); //
         }
     }
 
